@@ -1,0 +1,11 @@
+package goFish;
+import java.util.*; 
+
+public class stuffle deck {
+  public static void main(String[] args) {
+    Collections.shuffle(deck);
+    System.out.println(deck);
+      
+
+    }
+}
