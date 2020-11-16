@@ -1,5 +1,5 @@
 package goFish;
-
+import java.util.*;
 public class Main {
 
 	public static void main(String[] args) {
@@ -8,4 +8,11 @@ public class Main {
 		deck.generate();
 	}
 
+}
+
+public class Player{
+public List<String> cards = new ArrayList<String>();
+public Player(List<String> cards){
+this.cards = cards;
+}
 }
