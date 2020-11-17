@@ -6,6 +6,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		DeckOfCards deck = new DeckOfCards();
 		deck.generate();
+		deck.shuffle();
 	}
 
 }

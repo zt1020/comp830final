@@ -1,6 +1,7 @@
 package goFish;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -37,4 +38,11 @@ public class DeckOfCards {
 		System.out.println(deck);
 	}
 	
+	public void shuffle() {
+		
+		Collections.shuffle(deck);
+		System.out.println(deck);
+	}
+	
 }
+
