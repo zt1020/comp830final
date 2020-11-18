@@ -7,6 +7,10 @@ public class Main {
 		DeckOfCards deck = new DeckOfCards();
 		deck.generate();
 		deck.shuffle();
+		CardsDistribution carddist = new CardsDistribution();
+		carddist.distributeCards(3);
+		
+		
 	}
 
 }

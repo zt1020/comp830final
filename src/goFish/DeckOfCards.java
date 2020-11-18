@@ -1,6 +1,7 @@
 package goFish;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class DeckOfCards {
 
 	public List<String> deck = new ArrayList<String>();
 	
-	public void generate() {
+	public Collection<? extends String> generate() {
 		
 		for (int i = 1; i<14; i++) {
 			deck.add(Integer.toString(i));
@@ -36,6 +37,7 @@ public class DeckOfCards {
             
 		}
 		System.out.println(deck);
+		return deck;
 	}
 	
 	public void shuffle() {
