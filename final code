@@ -1,0 +1,234 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+ 
+public class GoFish
+{
+    static final Random randomNumber = new Random();
+    static private ArrayList<Card> deckOfCards;
+    static public Player[] gamers;
+ 
+    public static Card cardDraw()
+{
+return deckOfCards.remove(randomNumber.nextInt(deckOfCards.size()));
+}
+ 
+public static int sizeOfDeck()
+{
+return deckOfCards.size();
+    }
+ 
+    public static void main(String[] args)
+    {
+ 
+        deckOfCards = new ArrayList<Card>();
+        for(int i=0;i<4;i++)
+            for(Card c: Card.values())
+                deckOfCards.add(c);
+        Player h = new Player1();
+        Player ai = new Player2();
+        gamers = new Player[] {h, ai};
+ 
+        while(gamers[0].getNumBooks() + gamers[1].getNumBooks() < 13)
+        {
+            gamers[0].haveTurn();
+            System.out.println("_______________");
+            gamers[1].haveTurn();
+            System.out.println("_______________");
+        }
+ 
+        int p1Score = gamers[0].getNumBooks(); int p2Score = gamers[1].getNumBooks();
+        if (p1Score > p2Score)
+            System.out.println("Congratulations, H won the game!");
+        else if (p2Score > p1Score)
+            System.out.println("Congratulations, AI won the game!");
+        else
+            System.out.println("It's a tie between H and AI!");
+    }
+}
+ 
+enum Card
+{
+    ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING;
+}
+ 
+abstract class Player
+{
+    protected ArrayList<Card> hand = new ArrayList<Card>();
+    private int numBooks;
+ 
+    public Player()
+    {
+        for(int i=0;i<8;i++)
+            fish();
+    }
+ 
+    public boolean hasGiven(Card cType)
+    {
+        return hand.contains(cType);
+    }
+ 
+    public ArrayList<Card> giveAll(Card cType)
+    {
+        ArrayList<Card> x = new ArrayList<Card>();
+        for(int i=0;i<hand.size();i++)            
+            if (hand.get(i) == cType)
+              x.add(hand.get(i));
+        for(int c=0;c<x.size();c++)
+            hand.remove(cType);
+        return x;
+    }
+ 
+    protected boolean askFor(Card cType)
+    {
+        int tmp = 0;
+        if (this instanceof Player1)
+            tmp = 1;
+        Player other = GoFish.gamers[tmp];
+ 
+   
+        if (tmp==1)
+            ((Player2) other).queries.add(cType);
+   
+        if (other.hasGiven(cType))
+        {
+            for(Card c: other.giveAll(cType))
+                hand.add(c);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+ 
+    protected void fish()
+   {
+       if (GoFish.sizeOfDeck() > 0)
+        hand.add(GoFish.cardDraw());
+       else
+        System.out.println("The deck is empty.");
+    }
+ 
+    public int getNumBooks()
+    {
+        return numBooks;
+    }
+ 
+    protected Card checkForBooks()
+    {
+        for(Card c: hand)
+        {
+            int num = 0;
+            for(Card d: hand)
+              if (c == d)
+                  num++;
+            if (num == 4)
+            {
+                for(int i=0;i<4;i++)
+                    hand.remove(c);
+                numBooks++;
+                return c;
+            }
+        }
+        return null;
+ 
+ 
+    }
+ 
+    public abstract void haveTurn();
+ 
+}
+ 
+class Player1 extends Player
+{
+    public void haveTurn()
+    {
+        Scanner scn = new Scanner(System.in);
+        boolean playing = true;
+        do{
+            Card book = checkForBooks();
+            if(book != null)
+                System.out.println("You got a deck of " + book + "s!");
+ 
+            if (hand.size() == 0)
+            {
+                System.out.print("Your deck is empty, you must ");
+                break;
+            }
+            else
+            {
+                System.out.print("Your deck:");
+                for(Card c: hand)
+                    System.out.print(c + " ");
+                System.out.println();
+            }
+ 
+            System.out.println("Ask opponent for card which you want");
+ 
+            Card req;
+            try{
+                req = Card.valueOf(scn.next().toUpperCase());
+            }
+            catch(IllegalArgumentException e){
+                System.out.println("Card is not present in the deck. Try again:");
+                continue;
+            }
+ 
+            if(!hand.contains(req))
+            {
+                System.out.println("I don't have that card. Go Fish!");
+                continue;
+            }
+ 
+            System.out.println("You ask for " + req);
+            playing = askFor(req);
+        } while(playing);
+        System.out.println("Go fish!");
+        fish();
+    }
+}
+ 
+class Player2 extends Player
+{
+    public ArrayList<Card> queries = new ArrayList<Card>();
+    private int age = 0;
+ 
+    public void haveTurn()
+    {
+        boolean playing;
+        do{
+            Card cardBook = checkForBooks();
+            if(cardBook != null)
+                System.out.println("Your opponent got a deck of " + cardBook + "s...");
+            if (hand.size() == 0)
+            {
+                System.out.print("Your opponent's hand is empty.");
+                break;
+            }
+            Card req = aiMagic();
+            System.out.println("Your opponent asks for deckOfCards by the name of " + req);
+            playing = askFor(req);
+            age++;
+        } while(playing);
+        System.out.println("Your opponent says Go Fish.");
+        fish();
+    }
+ 
+
+    private Card aiMagic()
+    {
+        if (age>2)
+        {
+            queries.remove(queries.size()-1);
+            age=0;                          
+        }
+       
+        for(int i=queries.size()-1; i>-1; i--)
+            if (hand.contains(queries.get(i)))
+            {
+                return queries.remove(i);
+            }                        
+        return hand.get(GoFish.randomNumber.nextInt(hand.size()));
+    }
+}
