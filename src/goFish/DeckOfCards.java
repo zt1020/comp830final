@@ -11,6 +11,14 @@ public class DeckOfCards {
 
 	public List<String> deck = new ArrayList<String>();
 	
+	private static DeckOfCards instance = new DeckOfCards();
+	
+	private DeckOfCards() {}
+	
+	public static DeckOfCards getInstance() {
+		return instance;
+	}
+	
 	public Collection<? extends String> generate() {
 		
 		for (int i = 1; i<14; i++) {
@@ -37,6 +45,7 @@ public class DeckOfCards {
             
 		}
 		System.out.println(deck);
+		Collections.shuffle(deck);
 		return deck;
 	}
 	
