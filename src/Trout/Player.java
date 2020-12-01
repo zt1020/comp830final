@@ -1,3 +1,5 @@
+package Trout;
+
 import java.util.ArrayList;
 
 enum Card

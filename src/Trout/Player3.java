@@ -2,7 +2,7 @@ package Trout;
 
 import java.util.Scanner;
 
-class Player1 extends Player
+class Player3 extends Player
 {
     public void myTimeForPickup()
     {
@@ -13,16 +13,16 @@ class Player1 extends Player
         {
             Card card = checkForBooks();
             if(card!= null)
-                System.out.println("Player 1 gains a book of " + card + "s!");
+                System.out.println("Player 3, You gain a book of " + card + "s!");
 
             if (myTurn.size() == 0)
             {
-                System.out.print("Player 1, you dont have cards, you must ");
+                System.out.print("Player 3, You dont have cards, you must ");
                 break;
             }
             else
             {
-                System.out.print("Player 1's turn:");
+                System.out.print("Player 3's turn:");
                 for(Card c: myTurn)
                     System.out.print(c + " ");
                 System.out.println();
@@ -40,11 +40,11 @@ class Player1 extends Player
 
             if(!myTurn.contains(request))
             {
-                System.out.println("Player 1, You don't request for a card because you don't have any card. Please Try again:");
+                System.out.println("Player 3, You don't request for a card because you don't have any card. Please Try again:");
                 continue;
             }
 
-            System.out.println("Player 1, You can request for a " + request);
+            System.out.println("Player 3, You can request for a " + request);
             onGame = askFor(request);
         } while(onGame);
         System.out.println("Go fish!");
