@@ -30,29 +30,29 @@ public class GoFish
                 deck.add(c);
         Player p1 = new Player1();
         Player p2 = new Player2();
-        Player p3 = new Player3();
-        gamers = new Player[] {p1, p2, p3}; // 3rd player add
+        
+        gamers = new Player[] {p1, p2}; // 3rd player add
 
-        while(gamers[0].getNumberOfBooks() + gamers[1].getNumberOfBooks() + gamers[2].getNumberOfBooks() < 13)
+        while(gamers[0].getNumberOfBooks() + gamers[1].getNumberOfBooks() < 13)
         {
             gamers[0].myTimeForPickup();
+            System.out.println(deck.size());
             System.out.println("----------");
             gamers[1].myTimeForPickup();
-            System.out.println("----------");
-            gamers[2].myTimeForPickup();
+            System.out.println(deck.size());
             System.out.println("----------");
             // 3rd player add
         }
 
         int player1Runs= gamers[0].getNumberOfBooks();
         int player2Runs = gamers[1].getNumberOfBooks();
-        int player3Runs = gamers[2].getNumberOfBooks();
+        
 
         if (player1Runs > player2Runs)
-            System.out.println("Congrat's, Player 1 won the match");
+            System.out.println("Player 1 won the match");
         else if (player2Runs > player1Runs)
             System.out.println("Player 2 wins the match");
         else
-            System.out.println("Player 3 wins the match");
+            System.out.println("It's a tie!");
     }
 }

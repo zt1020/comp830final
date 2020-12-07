@@ -1,48 +1,55 @@
 package Trout;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class Player2 extends Player
 {
-    public ArrayList<Card> list = new ArrayList<Card>();
-    private int life = 0;
-
-
-    private Card player2Show()
-    {
-        if (life>2)
-        {
-            list.remove(list.size()-1);
-            life=0;
-        }
-
-        for(int i=list.size()-1; i>-1; i--)
-            if (myTurn.contains(list.get(i)))
-            {
-                return list.remove(i);
-            }
-        return myTurn.get(GoFish.rd.nextInt(myTurn.size()));
-    }
-
+	public ArrayList<Card> list = new ArrayList<Card>();
     public void myTimeForPickup()
     {
-        boolean onGame;
-        do{
-            Card cardBook = checkForBooks();
-            if(cardBook != null)
-                System.out.println("Another Player got a book of " + cardBook + "s...");
+        Scanner input = new Scanner(System.in);
+        boolean onGame = true;
+
+        do
+        {
+            Card card = checkForBooks();
+            if(card!= null)
+                System.out.println("Player 2, You gain a book of " + card + "s!");
+
             if (myTurn.size() == 0)
             {
-                System.out.print(" Your opposite player hand is empty.");
+                System.out.print("Player 2, You dont have cards, you must ");
                 break;
             }
-            Card request = player2Show();
-            System.out.println("Opposite player requests for the deck by the name of " + request);
+            else
+            {
+                System.out.print("Player 2's turn:");
+                for(Card c: myTurn)
+                    System.out.print(c + " ");
+                System.out.println();
+            }
+
+            System.out.println("Ask other player for which card? ");
+            Card request;
+            try{
+                request = Card.valueOf(input.next().toUpperCase());
+            }
+            catch(Exception e){
+                System.out.println("There is no cards in this deck. Please Try again:");
+                continue;
+            }
+
+            if(!myTurn.contains(request))
+            {
+                System.out.println("Player 2, You don't request for a card because you don't have any card. Please Try again:");
+                continue;
+            }
+
+            System.out.println("Player 2, You can request for a " + request);
             onGame = askFor(request);
-            life++;
         } while(onGame);
-        System.out.println("Your opposite player goes picking cards from deck");
+        System.out.println("Go fish!");
         fish();
     }
-
 }
